@@ -10,33 +10,49 @@ include <screw_holes.scad>
 // }
 //
 
+module top_plate()
+{
+    translate([0,0,-3]) cylinder(r=23,h=3, $fn=1024);
+    cover_nodes();
+}
+
 module top_cover()
 {
     difference(){
-       translate([0,0,-3]) cylinder(r=23,h=3, $fn=1024);
+       top_plate();
        cover_screws();
     }
    // %translate([0,0,0]) top_body();
 }
 module top_plug(){
-    translate([0,0,0]) cylinder(r=23,h=3, $fn=1024);
-    translate([0,0,3]) cylinder(r=15,h=3,$fn=32);
+    translate([0,0,0]) cylinder(r=23,h=3, $fn=256);
+    translate([0,0,3]) cylinder(r=15,h=4,$fn=16);
 }
 
 
+module cover_nodes()
+{
+  $fn=128;
+  rotate([180,0,180-45]) translate([19,0,0]) cylinder(r=3, h=11);
+  rotate([180,0,0-45]) translate([19,0,0]) cylinder(r=3, h=11);   
+  rotate([180,0,-90-45]) translate([19,0,0]) cylinder(r=3, h=11); 
+  rotate([180,0,45]) translate([19,0,0]) cylinder(r=3, h=11);
+}
 module cover_screws()
 {
    // Drill a hole for a DIN965 M3 screw of length 20 mm,
   // with 10 mm thread.
-  rotate([180,0,180-45]) translate([19,0,-3.2]) screw_hole(DIN965, M3, 6.5, 6.5);
-  //%rotate([180,0,180-45]) translate([19,0,-3.2]) screw_hole(DIN965, M3, 6.5, 6.5); 
-  rotate([180,0,0-45]) translate([19,0,-3.2]) screw_hole(DIN965, M3, 6.5, 6.5);
+  rotate([180,0,180-45]) translate([19,0,-3.2]) screw_hole(DIN965, M3, 14, 14);
+  %rotate([180,0,180-45]) translate([19,0,-3.2]) screw_hole(DIN965, M3, 14, 14); 
+  rotate([180,0,0-45]) translate([19,0,-3.2]) screw_hole(DIN965, M3, 14, 14);
   //%rotate([180,0,0-45]) translate([19,0,-3.2]) screw_hole(DIN965, M3, 6.5, 6.5);   
-  rotate([180,0,-90-45]) translate([19,0,-3.2]) screw_hole(DIN965, M3, 6.5, 6.5);
+  rotate([180,0,-90-45]) translate([19,0,-3.2]) screw_hole(DIN965, M3, 14, 14);
   //%rotate([180,0,-90-45]) translate([19,0,-3.2]) screw_hole(DIN965, M3, 6.5, 6.5); 
-  rotate([180,0,45]) translate([19,0,-3.2]) screw_hole(DIN965, M3, 6.5, 6.5);
+  rotate([180,0,45]) translate([19,0,-3.2]) screw_hole(DIN965, M3, 14, 14);
   //%rotate([180,0,45]) translate([19,0,-3.2]) screw_hole(DIN965, M3, 6.5, 6.5);      
-    
+  
+  
+   
 }
 
 module bottom_screws()
@@ -54,7 +70,7 @@ module bottom_screws()
 module bottom_part()
 {
      difference(){
-        translate([0,0,0]) cylinder(r=23,h=5,$fn=1024);
+        translate([0,0,0]) cylinder(r=23,h=5,$fn=256);
         translate([0,0,8.1]) rotate([0,180,0]) scale([1.02,1.02,1.02]) top_body();
         //%translate([0,0,8.1]) rotate([0,180,0]) top_body();
         bottom_screws();   
@@ -66,12 +82,12 @@ module top_body(){
     difference(){
         top_plug();
         translate([0,13,-.1]) cylinder(r=7.5,h=2);
-        translate([0,20,-.1]) cube([2,7,2]);
+        translate([0,20,-.1]) cube([4,7,2]);
         cover_screws();     
     }
-    translate([0,13,-.1]) cylinder(r=5.5,h=2,$fn=1024);
+    translate([0,13,-.1]) cylinder(r=5.5,h=2,$fn=256);
 }
 
-top_body();
-translate([55,0,0]) bottom_part();
-translate([0,55,3]) top_cover();
+//top_body();
+//translate([55,0,0]) bottom_part();
+//translate([0,55,3]) top_cover();
